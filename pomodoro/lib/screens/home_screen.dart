@@ -92,8 +92,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                        color: Theme.of(context).cardColor,
-                        borderRadius: BorderRadius.circular(50)),
+                      color: Theme.of(context).cardColor,
+                      borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(50), bottom: Radius.zero),
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
