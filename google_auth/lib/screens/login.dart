@@ -2,8 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
@@ -33,12 +41,31 @@ class LoginPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              TextField(
+                controller: emailController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'E-Mail',
+                ),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: passwordController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Password',
+                ),
+                obscureText: true,
+              ),
+              const SizedBox(height: 12),
               ElevatedButton(
-                onPressed: () {
-                  var user = signInWithGoogle();
-                  print(user);
+                onPressed: () async {
+                  var user = await signInWithGoogle();
                 },
-                child: const Text("Google Login"),
+                child: const Text(
+                  "Google Login",
+                  style: TextStyle(fontSize: 16),
+                ),
               )
             ],
           ),
