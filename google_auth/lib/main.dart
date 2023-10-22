@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, AsyncSnapshot<User?> user) {
           if (user.hasData) {
-            return HomePage(title: '${user.data?.displayName}');
+            return HomePage(title: '${user.data?.email}');
           } else {
             return const LoginPage();
           }

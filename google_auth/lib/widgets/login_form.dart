@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -52,13 +53,22 @@ class LoginFormState extends State<LoginForm> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 12),
             child: ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (_formKey.currentState!.validate()) {
-                  print('${_emailCtrl.text} : ${_passwordCtrl.text}');
-
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Processing Data')),
                   );
+
+                  try {
+                    var user = await FirebaseAuth.instance
+                        .signInWithEmailAndPassword(
+                            email: _emailCtrl.text,
+                            password: _passwordCtrl.text);
+
+                    print('login success! $user');
+                  } on FirebaseAuthException catch (e) {
+                    print('an error occured $e');
+                  }
                 }
               },
               child: const Text('E-Mail Login'),
