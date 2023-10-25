@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -9,7 +10,25 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  DateTime firstDay = DateTime.now();
+  late DateTime firstDay = DateTime.now();
+  late SharedPreferences prefs;
+
+  Future initPrefs() async {
+    prefs = await SharedPreferences.getInstance();
+    final firstTime = prefs.getInt('dday');
+
+    if (firstTime != null) {
+      setState(() {
+        firstDay = DateTime.fromMillisecondsSinceEpoch(firstTime);
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initPrefs();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +63,8 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 300,
             child: CupertinoDatePicker(
               mode: CupertinoDatePickerMode.date,
-              onDateTimeChanged: (DateTime date) {
+              onDateTimeChanged: (DateTime date) async {
+                await prefs.setInt('dday', date.millisecondsSinceEpoch);
                 setState(() {
                   firstDay = date;
                 });
@@ -80,7 +100,7 @@ class _DDay extends StatelessWidget {
       ),
       const SizedBox(height: 16.0),
       Text(
-        '우리 처음 만난 날',
+        '우리 결혼한 날',
         style: textTheme.bodyLarge,
       ),
       const SizedBox(height: 16.0),
