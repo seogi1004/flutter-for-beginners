@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:vid_player/component/custom_video_player.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -9,13 +10,19 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _Logo extends StatelessWidget {
+  final GestureTapCallback onTap;
+
   const _Logo({
     Key? key,
+    required this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset('asset/img/logo.png');
+    return GestureDetector(
+      onTap: onTap,
+      child: Image.asset('asset/img/logo.png'),
+    );
   }
 }
 
@@ -64,15 +71,29 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       width: MediaQuery.of(context).size.width,
       decoration: getBoxDecoration(),
-      child: const Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _Logo(),
-          SizedBox(height: 30.0),
-          _AppName(),
+          _Logo(
+            onTap: onNewVideoPressed,
+          ),
+          const SizedBox(height: 30.0),
+          const _AppName(),
         ],
       ),
     );
+  }
+
+  void onNewVideoPressed() async {
+    final video = await ImagePicker().pickVideo(
+      source: ImageSource.gallery,
+    );
+
+    if (video != null) {
+      setState(() {
+        this.video = video;
+      });
+    }
   }
 
   BoxDecoration getBoxDecoration() {
@@ -88,6 +109,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget renderVideo() {
-    return Container();
+    return Center(
+      child: CustomVideoPlayer(video: video!),
+    );
   }
 }
