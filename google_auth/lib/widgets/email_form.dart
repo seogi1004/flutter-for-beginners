@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class LoginForm extends StatefulWidget {
-  const LoginForm({super.key});
+class EmailForm extends StatefulWidget {
+  const EmailForm({super.key});
 
   @override
-  LoginFormState createState() {
-    return LoginFormState();
+  EmailFormState createState() {
+    return EmailFormState();
   }
 }
 
-class LoginFormState extends State<LoginForm> {
+class EmailFormState extends State<EmailForm> {
   final _formKey = GlobalKey<FormState>();
   final _emailCtrl = TextEditingController();
   final _passwordCtrl = TextEditingController();

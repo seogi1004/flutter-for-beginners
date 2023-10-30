@@ -38,6 +38,8 @@ dependencies:
   firebase_core: ^2.18.0
   firebase_auth: ^4.11.0
   google_sign_in: ^6.1.5
+  kakao_flutter_sdk_user: ^1.6.1
+  kakao_flutter_sdk_auth: ^1.6.1
 
 dev_dependencies:
   flutter_test:
