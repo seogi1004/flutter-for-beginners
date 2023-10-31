@@ -12,6 +12,21 @@ class KakaoForm extends StatelessWidget {
     void login() async {
       kakao.User? kakaoUser = await kakao.UserApi.instance.me();
 
+      try {
+        OAuthToken token =
+            await kakao.UserApi.instance.loginWithKakaoAccount(); // 카카오 로그인
+        var provider = OAuthProvider('oidc.kakao'); // 제공업체 id
+        var credential = provider.credential(
+          idToken: token.idToken,
+          // 카카오 로그인에서 발급된 idToken(카카오 설정에서 OpenID Connect가 활성화 되어있어야함)
+          accessToken: token.accessToken, // 카카오 로그인에서 발급된 accessToken
+        );
+        var user = await FirebaseAuth.instance.signInWithCredential(credential);
+        print(user);
+      } catch (error) {
+        print('카카오계정으로 로그인 실패 $error');
+      }
+
       print("kakao id : ${kakaoUser.id}");
     }
 
