@@ -1,61 +1,65 @@
 import 'package:flutter/material.dart';
-import 'package:camera/camera.dart';
+import 'package:video_call/screen/home_screen.dart';
+// import 'package:camera/camera.dart';
 
-late List<CameraDescription> _cameras;
-
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  _cameras = await availableCameras();
-  runApp(const CameraApp());
+void main() {
+  runApp(const MaterialApp(home: HomeScreen()));
 }
+// late List<CameraDescription> _cameras;
 
-class CameraApp extends StatefulWidget {
-  const CameraApp({super.key});
+// Future<void> main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
 
-  @override
-  State<CameraApp> createState() => _CameraAppState();
-}
+//   _cameras = await availableCameras();
+//   runApp(const CameraApp());
+// }
 
-class _CameraAppState extends State<CameraApp> {
-  late CameraController controller;
+// class CameraApp extends StatefulWidget {
+//   const CameraApp({super.key});
 
-  @override
-  void initState() {
-    super.initState();
+//   @override
+//   State<CameraApp> createState() => _CameraAppState();
+// }
 
-    initializeCamera();
-  }
+// class _CameraAppState extends State<CameraApp> {
+//   late CameraController controller;
 
-  initializeCamera() async {
-    try {
-      controller = CameraController(_cameras[0], ResolutionPreset.max);
-      await controller.initialize();
-      setState(() {});
-    } catch (e) {
-      if (e is CameraException) {
-        switch (e.code) {
-          case 'CameraAccessDenied':
-            print('User denied camera access.');
-            break;
-          default:
-            print('Handle other errors.');
-            break;
-        }
-      }
-    }
-  }
+//   @override
+//   void initState() {
+//     super.initState();
 
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
+//     initializeCamera();
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: CameraPreview(controller),
-    );
-  }
-}
+//   initializeCamera() async {
+//     try {
+//       controller = CameraController(_cameras[0], ResolutionPreset.max);
+//       await controller.initialize();
+//       setState(() {});
+//     } catch (e) {
+//       if (e is CameraException) {
+//         switch (e.code) {
+//           case 'CameraAccessDenied':
+//             print('User denied camera access.');
+//             break;
+//           default:
+//             print('Handle other errors.');
+//             break;
+//         }
+//       }
+//     }
+//   }
+
+//   @override
+//   void dispose() {
+//     controller.dispose();
+//     super.dispose();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: CameraPreview(controller),
+//     );
+//   }
+// }
