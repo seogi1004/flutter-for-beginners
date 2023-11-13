@@ -1,7 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_editor/component/emoticon_sticker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_editor/component/main_app_bar.dart';
+import 'package:image_editor/component/footer.dart';
+import 'package:image_editor/model/StickerModel.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,6 +15,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   XFile? image;
+  Set<StickerModel> stickers = {};
+  String? selectedId;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +35,15 @@ class _HomeScreenState extends State<HomeScreen> {
               onDeleteItem: onDeleteItem,
             ),
           ),
+          if (image != null)
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Footer(
+                onEmoticonTap: onEmoticonTap,
+              ),
+            ),
         ],
       ),
     );
@@ -39,9 +53,21 @@ class _HomeScreenState extends State<HomeScreen> {
     if (image != null) {
       return Positioned.fill(
         child: InteractiveViewer(
-          child: Image.file(
-            File(image!.path),
-            fit: BoxFit.cover,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              Image.file(
+                File(image!.path),
+                fit: BoxFit.cover,
+              ),
+              ...stickers.map((sticker) => Center(
+                    child: EmoticonSticker(
+                      onTransform: onTransform,
+                      imgPath: sticker.imgPath,
+                      isSelected: selectedId == sticker.id,
+                    ),
+                  )),
+            ],
           ),
         ),
       );
@@ -68,4 +94,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void onSaveImage() {}
 
   void onDeleteItem() {}
+
+  void onEmoticonTap(int index) {}
+
+  void onTransform() {}
 }
