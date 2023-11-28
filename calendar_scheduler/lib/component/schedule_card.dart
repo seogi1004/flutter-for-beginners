@@ -34,7 +34,7 @@ class ScheduleCard extends StatelessWidget {
               ),
               const SizedBox(width: 16.0),
               _Content(content: content),
-              const SizedBox(height: 16.0),
+              const SizedBox(width: 16.0),
             ],
           ),
         ),
